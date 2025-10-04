@@ -84,9 +84,5 @@ void free_argv(char **oldArgv) {
 	 *
 	 * Fill in code.
 	 */
-//	while(oldArgv[i] != NULL){
-//		free(oldArgv[i]);
-//		i++;
-//	}
 	free(oldArgv);
 }

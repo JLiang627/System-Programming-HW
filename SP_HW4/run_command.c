@@ -58,9 +58,6 @@ void run_command(char **myArgv) {
         /* Child. */
         case 0 :
                 /* Print myArgv in child process. */
-            // for (int i = 0; myArgv[i] != NULL; i++) {
-            //     printf("[%d] : %s\n", i, myArgv[i]);
-            // }
             if (strcmp(myArgv[0], "sleep") == 0) {
                 // 使用 execvp 呼叫 sleep 指令
                 if (strcmp(myArgv[2], "&") == 0) 
