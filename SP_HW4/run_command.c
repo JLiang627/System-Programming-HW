@@ -9,14 +9,20 @@
 #include <signal.h>
 #include <errno.h>
 #include <sys/wait.h>
-#include <unistd.h> // 加入這行以使用 execlp 函數
+#include <unistd.h> 
 #include "shell.h"
-#include <string.h> // 加入這行以使用 strcmp 函數
+#include <string.h> 
 
 void run_command(char **myArgv) {
     pid_t pid;
     int stat;
-
+    int is_bg;
+    is_bg = is_background(myArgv); /* Check if command is to be run in background. */
+    
+    for (int i = 0; myArgv[i] != NULL; i++) {
+        printf("[%d] : %s\n", i, myArgv[i]);
+    }
+    
     /* Create a new child process. */
     pid = fork();
     switch (pid) {
@@ -29,6 +35,10 @@ void run_command(char **myArgv) {
         /* Parent. */
         default :
             /* Wait for child to terminate. */
+            if (is_bg){
+                return;
+            }
+            
             if (waitpid(pid, &stat, 0) == -1) {
                 perror("waitpid");
                 exit(errno);
@@ -47,14 +57,29 @@ void run_command(char **myArgv) {
 
         /* Child. */
         case 0 :
-            /* Print myArgv in child process. */
-            for (int i = 0; myArgv[i] != NULL; i++) {
-                printf("[%d] : %s\n", i, myArgv[i]);
+                /* Print myArgv in child process. */
+            // for (int i = 0; myArgv[i] != NULL; i++) {
+            //     printf("[%d] : %s\n", i, myArgv[i]);
+            // }
+            if (strcmp(myArgv[0], "sleep") == 0) {
+                // 使用 execvp 呼叫 sleep 指令
+                if (strcmp(myArgv[2], "&") == 0) 
+                    myArgv[2] = NULL; // 把 & 從參數移除
+                if (execvp(myArgv[0], myArgv) == -1) {
+                    perror("execvp");
+                    exit(errno);
+                }
             }
-            
+
             /* Run command in child process. */
             if (strcmp(myArgv[0], "ls") == 0){
                 execlp("ls", "ls", "-l", (char *)NULL);
+                perror("execlp");
+                exit(errno);
+            }
+
+            if (strcmp(myArgv[0], "ps") == 0) {
+                execlp("ps", "ps", "aux", (char *)NULL);
                 perror("execlp");
                 exit(errno);
             }
