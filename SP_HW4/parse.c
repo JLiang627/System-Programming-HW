@@ -67,7 +67,7 @@ char ** parse(char *line) {
 	 *
   	 * Fill in code.
 	 */
-	printf("ending of parsing\n");
+	
   	return newArgv;
 }
 
@@ -84,9 +84,9 @@ void free_argv(char **oldArgv) {
 	 *
 	 * Fill in code.
 	 */
-	while(oldArgv != NULL){
-		free(oldArgv[i]);
-		i++;
-	}
+//	while(oldArgv[i] != NULL){
+//		free(oldArgv[i]);
+//		i++;
+//	}
 	free(oldArgv);
 }

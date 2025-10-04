@@ -11,6 +11,7 @@ int is_background(char ** myArgv) {
   	if (*myArgv == NULL)
     	return 0;
 
+	
   	/* Look for "&" in myArgv, and process it.
   	 *
 	 *	- Return TRUE if found.

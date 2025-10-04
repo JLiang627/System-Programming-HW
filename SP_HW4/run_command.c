@@ -19,7 +19,6 @@ void run_command(char **myArgv) {
 
     /* Create a new child process. */
     pid = fork();
-    printf("this is forking place\n");
     switch (pid) {
 
         /* Error. */
@@ -54,10 +53,11 @@ void run_command(char **myArgv) {
             }
             
             /* Run command in child process. */
-            if (strcmp(myArgv[0], "ls") == 0)
+            if (strcmp(myArgv[0], "ls") == 0){
                 execlp("ls", "ls", "-l", (char *)NULL);
-            perror("execlp");
+                perror("execlp");
+                exit(errno);
+            }
             /* Handle error return from exec */
-            exit(errno);
     }
 }

@@ -22,29 +22,32 @@
 static void bi_echo(char **argv) {
   	/* Fill in code. */
 	_Bool newline = TRUE; //預設換行
-	int start = 1;
 	int givenNum;
 
 	if (argv[1] && strcmp(argv[1], "-n")){
-		givenNum = atoi(argv[2]);
-		start = 3;
 		newline = FALSE;
 	}
+	givenNum = atoi(argv[2]);
+	for (int i = 0; argv[i] != NULL ; i++)
+		printf("[%d]：%s\n", i, argv[i]);
 
-	while (!argv[start]){
-		printf("[%d]：%s", start, argv[start]);
-		start++;
-	}
+	// while (!argv[start]){
+	// 	printf("[%d]：%s", start, argv[start]);
+	// 	start++;
+	// }
 	
-	printf("%s\n", argv[givenNum+2]);
 	if(newline){
 		printf("%s\n", argv[givenNum+2]);
+	}else{
+		for (int i = 0; argv[i] != NULL; i++) {
+			printf("%s ", argv[i]);
+		}
+		printf("\n");
 	}
 }
 /* Fill in code. */
 static void bi_quit(char **argv) {
     printf("[0]：%s\n", argv[0]);
-	printf("this is biquit\n");
 	exit(0);
 }
 
