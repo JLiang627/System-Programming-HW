@@ -31,11 +31,6 @@ static void bi_echo(char **argv) {
 	for (int i = 0; argv[i] != NULL ; i++)
 		printf("[%d]：%s\n", i, argv[i]);
 
-	// while (!argv[start]){
-	// 	printf("[%d]：%s", start, argv[start]);
-	// 	start++;
-	// }
-	
 	if(newline){
 		printf("%s\n", argv[givenNum+2]);
 	}else{
@@ -48,7 +43,7 @@ static void bi_echo(char **argv) {
 /* Fill in code. */
 static void bi_quit(char **argv) {
     printf("[0]：%s\n", argv[0]);
-	exit(0);
+	_exit(0);
 }
 
 
