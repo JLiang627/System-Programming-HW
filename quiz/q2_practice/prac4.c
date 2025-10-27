@@ -28,7 +28,7 @@ static volatile sig_atomic_t timeout_flag = 0;
 /* --- 2. 訊號處理函式 (父行程使用) --- */
 void handler_int_parent(int signo) {
     // write() 是 async-signal-safe，在 handler 中使用 printf() 不安全
-    write(STDOUT_FILENO, "\n[Parent] Ignored Ctrl+C.\n", 28);
+    write(STDOUT_FILENO, "\n[Parent] Ignored Ctrl+C.\n", 27);
 }
 
 void handler_chld(int signo) {
