@@ -1,6 +1,4 @@
-// #### 題目情境
-
-// 您要撰寫一個「子行程監控器」父行程，其工作流程如下：
+// 撰寫一個「子行程監控器」父行程，其工作流程如下：
 
 // 1.  父行程 (Manager) `fork` 出一個子行程 (Worker)。
 // 2.  子行程 (Worker) 不會立刻開始工作，它會先 `raise(SIGSTOP)` 讓自己暫停，進入「準備就緒」狀態。
@@ -41,29 +39,7 @@
 //         * 如果 `child_reaped_flag` 為 1，印出「監控結果：子行程準時完成。」(在本題情境下不應發生)
 //     * **(H) 恢復**：最後，恢復 (unblock) `SIGCHLD` 和 `SIGALRM`。
 
-// #### 🌟 額外挑戰 (Bonus)
-
-// 如果您成功完成了上述要求 (子行程被 `SIGALRM` 終止)，請修改子行程的 `sleep(10)` 為 `sleep(2)`。
-
-// 在這種情況下，您的程式**必須**正確地顯示「監控結果：子行程準時完成。」—— 這將考驗您的 `SIGCHLD` 處理邏輯是否同樣健壯。
-
-/*
- * 🎛️ 全方位綜合練習：限時執行的子行程監控器
- *
- * 這份程式碼實作了一個父行程 (Manager) 監控一個子行程 (Worker) 的場景。
- * * 核心技術：
- * 1. sigaction: 安裝三個不同的 handler (INT, CHLD, ALRM)。
- * 2. fork/kill: 跨行程訊號通訊 (SIGSTOP, SIGCONT, SIGKILL)。
- * 3. sigprocmask/sigsuspend:
- * - 在 fork 前封鎖 SIGCHLD/SIGALRM，防止競態條件。
- * - 使用 sigsuspend() 安全地、原子性地解除封鎖並等待訊號。
- * 4. volatile sig_atomic_t: 在 handler 和 main 之間安全地傳遞旗標。
- * 5. waitpid(WNOHANG): 在 SIGCHLD handler 中正確回收殭屍行程。
- */
-
-// 啟用 POSIX 擴充功能 (例如 sigaction)，必須在所有 #include 之前
-#define _POSIX_C_SOURCE 200809L
-
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>     // fork, sleep, alarm, kill, getpid, write
