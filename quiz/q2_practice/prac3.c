@@ -11,6 +11,7 @@
 // 重點：體驗 raise()、SIGSTOP、SIGKILL、sigpause() 在不同情境下的效果。
 
 // 練習題 3：信號控制與強制終止
+#define _GNU_SOURCE
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>

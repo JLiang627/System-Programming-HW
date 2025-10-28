@@ -10,6 +10,7 @@
 // 呼叫 alarm(5) 後，使用 sigsuspend() 讓程式暫停，直到 SIGALRM 到達。
 // 在 SIGALRM 處理完後，恢復原本的 mask 狀態。
 // 重點：練習「如何正確設定 alarm mask」與避免競態條件（race condition）。
+#define _GNU_SOURCE
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
