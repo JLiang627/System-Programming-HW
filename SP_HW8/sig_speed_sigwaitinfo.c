@@ -71,24 +71,24 @@ main(int argc, char *argv[])
 
     pid_t childPid = fork();
     switch (childPid) {
-    case -1: errExit("fork");
+        case -1: errExit("fork");
 
-    case 0:     /* child */
-        for (int scnt = 0; scnt < numSigs; scnt++) {
-            if (kill(getppid(), TESTSIG) == -1)
-                errExit("kill");
-            if (sigsuspend(&emptyMask) == -1 && errno != EINTR)
-                    errExit("sigsuspend");
-        }
-        exit(EXIT_SUCCESS);
+        case 0:     /* child */
+            for (int scnt = 0; scnt < numSigs; scnt++) {
+                if (kill(getppid(), TESTSIG) == -1)
+                    errExit("kill");
+                if (sigwaitinfo(&blockedMask, NULL) == -1)
+                    errExit("sigwaitinfo");
+            }
+            exit(EXIT_SUCCESS);
 
-    default: /* parent */
-        for (int scnt = 0; scnt < numSigs; scnt++) {
-            if (sigsuspend(&emptyMask) == -1 && errno != EINTR)
-                    errExit("sigsuspend");
-            if (kill(childPid, TESTSIG) == -1)
-                errExit("kill");
-        }
-        exit(EXIT_SUCCESS);
+        default: /* parent */
+            for (int scnt = 0; scnt < numSigs; scnt++) {
+                if (sigwaitinfo(&blockedMask, NULL) == -1)
+                    errExit("sigwaitinfo");
+                if (kill(childPid, TESTSIG) == -1)
+                    errExit("kill");
+            }
+            exit(EXIT_SUCCESS);
     }
 }
