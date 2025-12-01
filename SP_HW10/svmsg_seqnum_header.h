@@ -10,6 +10,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include "tlpi_hdr.h"
+#include <unistd.h>
 
 #define SERVER_KEY_PATH "/tmp/svmsg_seqnum_key"
 #define SERVER_KEY_ID   100

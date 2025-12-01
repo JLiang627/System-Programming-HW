@@ -10,7 +10,7 @@ main(int argc, char *argv[])
 {
     struct requestMsg req;
     struct responseMsg resp;
-    int serverId, numMsgs;
+    int serverId;
     ssize_t msgLen;
     key_t SERVER_KEY;
     int seqLen; 
