@@ -1,3 +1,7 @@
+#define _GNU_SOURCE
+#define _XOPEN_SOURCE 700
+#define _POSIX_C_SOURCE 200809L
+#include <asm-generic/errno-base.h>
 #include <asm-generic/errno-base.h>
 #include <string.h>
 #include <stdio.h>
@@ -32,14 +36,16 @@ int cnt_total = 0;
 void handler(int sig, siginfo_t *info, void *ucontext) {
     int seq = info->si_value.sival_int;
     int idx = seq % shmp->B;
-
+    if (seq < 0) {
+        return;
+    }
+    
     if (shmp->buffer[idx].seq == seq) {
-        cnt_total++;
+        cnt_total++;  // 表示有收到data
     }
 }
 
 void consumer_main(int child_num){
-    long total = 0;
     struct sigaction sa;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_SIGINFO;
@@ -66,7 +72,6 @@ void producer_main(pid_t *consumer_pids, int D, int C, int B, int R){
 
     while (seq < D){
         idx = seq % B;
-        shmp->buffer[idx];
         shmp->buffer[idx].seq = seq;
 
         snprintf(shmp->buffer[idx].text, 80, "This is message %d", seq);
@@ -86,7 +91,7 @@ void producer_main(pid_t *consumer_pids, int D, int C, int B, int R){
     } 
 
     shmp->finished = 1;
-
+    value.sival_int = -1;
     for(int i = 0; i < C; i++)
         sigqueue(consumer_pids[i], SIGUSR1, value);
 }
@@ -108,7 +113,6 @@ int main(int argc, char *argv[]){
     key_t shm_key;
     int shmid = -1;
     int cnt_C = C;
-    int cnt_D = D;
     pid_t consumer_pids[C];
     int cnt_child = 0;
  
@@ -119,7 +123,7 @@ int main(int argc, char *argv[]){
     
     if ((shmid = shmget(shm_key, sizeof(struct shm_layout), IPC_CREAT | IPC_EXCL | 0666)) == -1){
         if (errno == EEXIST){
-            shmid = shmget(shm_key, sizeof(message), 0666);
+            shmid = shmget(shm_key, sizeof(struct shm_layout), 0666);
             if (shmid != -1){
                 if (shmctl(shmid, IPC_RMID, NULL) == -10){
                     perror("Failed to remove old shared memory");
@@ -144,6 +148,13 @@ int main(int argc, char *argv[]){
     shmp->C = C;
     shmp->finished = 0;
      
+    memset(shmp->recv_total, 0, sizeof(long) * C);
+
+    struct sigaction sa_ign;
+    sigemptyset(&sa_ign.sa_mask);
+    sa_ign.sa_flags = 0;
+    sa_ign.sa_handler = SIG_IGN;
+    sigaction(SIGUSR1, &sa_ign, NULL);
     // 產生 C 筆 Consumer
     while (cnt_C != 0){
         int pid = fork();
@@ -165,7 +176,6 @@ int main(int argc, char *argv[]){
     
 
     // 等待child結束
-    int status;
     for (int i = 0; i < C; i++){
         if (wait(NULL) == -1){
             perror("wait error");
@@ -187,7 +197,7 @@ int main(int argc, char *argv[]){
     printf("----------------------------\n");
     printf("Total messages: %ld (%d*%d 的意思)\n", total_expected, D, C);
     printf("Sum of received messages by all consumers: %ld\n", sum_received);
-    printf("Loss rate: 1 - (X/%ld) = %f\n", total_expected, loss_rate);
+    printf("Loss rate: 1 - (%ld/%ld) = %f\n", sum_received ,total_expected, loss_rate);
     printf("----------------------------\n");
 
     if (shmdt(shmp) == -1) {
