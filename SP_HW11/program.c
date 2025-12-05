@@ -39,7 +39,8 @@ void handler(int sig, siginfo_t *info, void *ucontext) {
     if (seq < 0) {
         return;
     }
-    
+    volatile int x = 0;
+    for (int i = 0 ; i < 100000; i++)x++;
     if (shmp->buffer[idx].seq == seq) {
         cnt_total++;  // 表示有收到data
     }
@@ -87,7 +88,7 @@ void producer_main(pid_t *consumer_pids, int D, int C, int B, int R){
         }
 
         seq++;
-        usleep(R * 1000);  //// 暫停 R 毫秒 (R ms = R * 1000 us)
+        usleep(R * 10);  //// 暫停 R 毫秒 (R ms = R * 1000 us)
     } 
 
     shmp->finished = 1;
