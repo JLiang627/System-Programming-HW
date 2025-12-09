@@ -64,6 +64,7 @@ void router_main(int N, int t, int R){
         int sender, receiver;
         packet_t pack;
         while (1){
+            printf("Please input the sender and the receiver: ");
             if (scanf("%d %d", &sender, &receiver) != 2) break;
 
             // 建立前面輸入的id
