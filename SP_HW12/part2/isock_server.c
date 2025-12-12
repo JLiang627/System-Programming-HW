@@ -10,6 +10,7 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <errno.h>
+#include <signal.h>
 
 #include "dict.h"
 
@@ -22,21 +23,29 @@ int main(int argc, char **argv) {
 		fprintf(stderr,"Usage : %s <datafile>\n",argv[0]);
 		exit(1);
 	}
+	signal(SIGCHLD, SIG_IGN);
 
 	/* Create the socket.
 	 * Fill in code. */
+	if ((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1)DIE("socket");
 
 	/* Initialize address.
 	 * Fill in code. */
-
+	memset(&server, '\0', sizeof(server.sin_addr));
+	server.sin_addr.s_addr = htonl(INADDR_ANY);
+	server.sin_family = AF_INET;
+	server.sin_port = htons(PORT);
 	/* Name and activate the socket.
 	 * Fill in code. */
+	if (bind(sd , (struct sockaddr *)&server, sizeof(server)) == -1)DIE("bind");
+	if (listen(sd, 3) == -1)DIE("listen");
 
 	/* main loop : accept connection; fork a child to have dialogue */
 	for (;;) {
 
 		/* Wait for a connection.
 		 * Fill in code. */
+		if ((cd = accept(sd, NULL, NULL)) == -1)DIE("accept");
 
 		/* Handle new client in a subprocess. */
 		switch (fork()) {
@@ -46,16 +55,18 @@ int main(int argc, char **argv) {
 				close (sd);	/* Rendezvous socket is for parent only. */
 				/* Get next request.
 				 * Fill in code. */
-				while (____) {
+				while ((n = read(cd, &tryit, sizeof(Dictrec))) > 0) {
 					/* Lookup the word , handling the different cases appropriately */
 					switch(lookup(&tryit,argv[1]) ) {
 						/* Write response back to the client. */
 						case FOUND:
 							/* Fill in code. */
+							write(cd, &tryit, sizeof(Dictrec));
 							break;
 						case NOTFOUND:
 							/* Fill in code. */
-							 break;
+							write(cd, &tryit, sizeof(Dictrec)); 
+							break;
 						case UNAVAIL:
 							DIE(argv[1]);
 					} /* end lookup switch */
