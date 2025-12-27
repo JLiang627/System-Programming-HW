@@ -31,10 +31,8 @@ System-Programming-HW/
 ├── SP_HW10/         # 作業 10
 ├── SP_HW11/         # 作業 11
 ├── SP_HW12/         # 作業 12
-├── SP_FINAL/        # 期末專題
 ├── quiz/            # 小考資料
 ├── Handouts/        # 課程講義
-└── test/            # 測試檔案
 ```
 
 ## 📝 作業說明
@@ -57,23 +55,6 @@ System-Programming-HW/
   - 行程管理
   - 行程間通訊
   - 以及更多...
-
-## 🚀 如何編譯與執行
-
-每個作業可能有不同的編譯需求，一般來說：
-
-```bash
-# 進入特定作業目錄
-cd SP_HW1/
-
-# 編譯 C 原始檔
-gcc -o program_name source_file.c
-
-# 執行編譯後的程式
-./program_name
-```
-
-詳細說明請參考各作業資料夾內的 PDF 文件。
 
 ## 📖 其他資源
 
