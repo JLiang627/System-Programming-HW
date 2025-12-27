@@ -31,10 +31,8 @@ System-Programming-HW/
 ├── SP_HW10/         # Homework 10
 ├── SP_HW11/         # Homework 11
 ├── SP_HW12/         # Homework 12
-├── SP_FINAL/        # Final Project
 ├── quiz/            # Quiz materials
 ├── Handouts/        # Course handouts
-└── test/            # Test files
 ```
 
 ## 📝 Assignments Overview
@@ -44,7 +42,7 @@ Each homework folder contains:
 - Assignment instructions (PDF documents)
 - Additional resources or documentation
 
-**Total**: 12 homework assignments + 1 final project
+**Total**: 12 homework assignments + 5 quizzes + 1 final exam
 
 ## 🛠️ Technologies Used
 
@@ -58,32 +56,15 @@ Each homework folder contains:
   - Inter-Process Communication (IPC)
   - And more...
 
-## 🚀 How to Compile and Run
-
-Each assignment may have different compilation requirements. Generally:
-
-```bash
-# Navigate to specific homework directory
-cd SP_HW1/
-
-# Compile C source file
-gcc -o program_name source_file.c
-
-# Run the compiled program
-./program_name
-```
-
-Please refer to the PDF documentation in each homework folder for detailed instructions.
-
 ## 📖 Additional Resources
 
 - **Handouts/**: Contains course materials and reference documents
 - **quiz/**: Contains quiz-related materials
-- **test/**: Contains test files and scripts
 
 ## 📧 Contact
 
 - **Author**: JLiang627
+- **Email**: a0979652527@icloud.com
 - **GitHub**: [@JLiang627](https://github.com/JLiang627)
 
 ## 📄 License
