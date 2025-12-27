@@ -1,6 +1,6 @@
 # 網路系統程式設計
 
-本 Repository 包含國立中山大學 114 學年度第 1 學期**網路系統程式設計**課程（CSE578）的所有作業與專題。
+本 Repository 包含國立中山大學 114 學年度第 1 學期**網路系統程式設計**課程（CSE578）的所有作業。
 
 > **English Version**: [README.md](./README.md)
 
