@@ -4,7 +4,7 @@
 
 > **English Version**: [README.md](./README.md)
 
-## 📚 課程資訊
+##  課程資訊
 
 - **課程名稱**: 網路系統程式設計
 - **課程代碼**: CSE578
@@ -15,7 +15,7 @@
 - **學分數**: 3 學分
 - **課程類別**: 選修
 
-## 📂 Repository 結構
+##  Repository 結構
 
 ```
 System-Programming-HW/
@@ -35,7 +35,7 @@ System-Programming-HW/
 ├── Handouts/        # 課程講義
 ```
 
-## 📝 作業說明
+##  作業說明
 
 每個作業資料夾包含：
 - 程式碼實作（`.c` 檔案）
@@ -44,7 +44,7 @@ System-Programming-HW/
 
 **作業總數**: 12 個作業 + 5次小考 + 1次期末
 
-## 🛠️ 使用技術
+##  使用技術
 
 - **主要語言**: C 語言
 - **開發環境**: Linux/Unix
@@ -56,18 +56,18 @@ System-Programming-HW/
   - 行程間通訊
   - 以及更多...
 
-## 📖 其他資源
+##  其他資源
 
 - **Handouts/**: 包含課程講義與參考文件
 - **quiz/**: 包含小考相關資料
 
-## 📧 聯絡方式
+##  聯絡方式
 
 - **作者**: JLiang627
 - **信箱**: a0979652527@icloud.com
 - **GitHub**: [@JLiang627](https://github.com/JLiang627)
 
-## 📄 授權說明
+##  授權說明
 
 本 Repository 僅供教育用途，請尊重學術誠信政策。
 
